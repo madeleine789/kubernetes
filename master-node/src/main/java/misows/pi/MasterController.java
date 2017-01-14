@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
-public class Controller {
+public class MasterController {
 
     @Autowired
     private PiService service;
@@ -16,8 +16,4 @@ public class Controller {
         return service.computePi(precision);
     }
 
-    @RequestMapping(path = "/compute/{start}/{iterations}/{precision}")
-    public String computePi(@PathVariable int start,@PathVariable int iterations,@PathVariable int precision){
-        return service.bellardsFormula(start,iterations,precision).toPlainString();
-    }
 }

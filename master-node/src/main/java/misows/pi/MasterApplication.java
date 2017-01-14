@@ -15,16 +15,16 @@ import java.util.Optional;
 import java.util.concurrent.*;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class MasterApplication extends SpringBootServletInitializer {
 
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
+        return application.sources(MasterApplication.class);
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(MasterApplication.class, args);
     }
 
     @Bean
