@@ -52,7 +52,7 @@
                 </executions>
                 <configuration>
                     <imageName>misows-pi/${project.artifactId}</imageName>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
