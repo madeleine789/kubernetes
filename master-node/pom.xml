@@ -21,6 +21,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>fabric8-cdi</artifactId>
+            <version>2.2.192</version>
+        </dependency>
     </dependencies>
 
 
@@ -50,7 +55,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <imageName>misows-pi/${project.artifactId}</imageName>
+                    <imageName>gcr.io/misows-pi/${project.artifactId}</imageName>
                     <dockerDirectory>${project.basedir}</dockerDirectory>
                     <resources>
                         <resource>

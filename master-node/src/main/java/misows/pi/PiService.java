@@ -1,16 +1,18 @@
 package misows.pi;
 
+import io.fabric8.annotations.Endpoint;
+import io.fabric8.annotations.Protocol;
+import io.fabric8.annotations.ServiceName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -20,8 +22,13 @@ public class PiService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${SLAVES_LIST:#{null}}")
+    @Inject
+    @Protocol("http")
+    @ServiceName("slave-node")
+    @Endpoint
     private List<String> slaves;
+    @Value("${pi.numberOfPods}")
+    private int pods;
 
     @Value("${pi.batch}")
     private int batch;
@@ -32,15 +39,19 @@ public class PiService {
 
     @Autowired
     private CommunicationService communication;
-    @Autowired(required = false)
+
+    @Autowired
     private CompletionService<PartialResult> completionService;
 
     public String computePi(int precision) {
+        logger.info("Kubernetes state - {} pods with URLS {}", pods, slaves);
         logger.info("Received computation request precision {}", precision);
         int iterations = precision / CONVERGENCE_SPEED;
         int nextBatch = batch;
         int nextIteration = 0;
+
         LinkedList<String> free = new LinkedList<>(slaves);
+
         BigDecimal sum = new BigDecimal(0, new MathContext(precision));
         while (hasPendingBatchesOrNotAllBatchesComputed(iterations, nextIteration, free)) {
             Optional<Future<PartialResult>> future = getNextAvailableResult(iterations, nextIteration, free);
@@ -72,7 +83,7 @@ public class PiService {
     }
 
     private boolean hasPendingBatchesOrNotAllBatchesComputed(int iterations, int nextIteration, LinkedList<String> free) {
-        return nextIteration < iterations || free.size() != slaves.size();
+        return nextIteration < iterations || free.size() != pods;
     }
 
     private int updateNextBatchSize(PartialResult part) {
@@ -99,4 +110,7 @@ public class PiService {
         return Optional.ofNullable(future);
     }
 
+    public List<String> getSlaves() {
+        return slaves;
+    }
 }

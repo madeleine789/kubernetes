@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: slave-node
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        run: slave-node
+    spec:
+      containers:
+      - name: master-node
+        image: gcr.io/misows-pi/slave-node
+        ports:
+        - containerPort: 8081
