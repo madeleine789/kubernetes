@@ -1,12 +1,13 @@
 
 #CREATE
-sudo update-alternatives --config javaccmvn clean install
+sudo update-alternatives --config javac
+mvn clean install
 gcloud docker --authorize-only
 gcloud docker -- push gcr.io/misows-pi/master-node && gcloud docker -- push gcr.io/misows-pi/slave-node
 gcloud config set compute/zone us-central1-a && gcloud container clusters create test
 gcloud container clusters get-credentials test
+kubectl create -f ./slave-node/slave-node-pod.yml && kubectl expose deployment/slave-node --type="LoadBalancer"
 kubectl create -f ./master-node/master-node-pod.yml && kubectl expose deployment/master-node --type="LoadBalancer"
-kubectl create -f ./slave-node/slave-node.yml && kubectl expose deployment/slave-node --type="LoadBalancer"
 
 #DEBUG
 kubectl get deployments
@@ -19,5 +20,4 @@ kubectl get svc <SERVICE-NAME>
 
 #DELETE
 kubectl delete service,deployment master-node && kubectl delete service,deployment slave-node
-gcloud container clusters delete test
 gcloud container clusters delete test && gsutil rm -r gs://artifacts.misows-pi.appspot.com/

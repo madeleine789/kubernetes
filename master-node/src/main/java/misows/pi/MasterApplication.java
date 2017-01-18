@@ -14,8 +14,6 @@ import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.*;
 
 @EnableAutoConfiguration

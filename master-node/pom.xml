@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>io.fabric8</groupId>
-            <artifactId>fabric8-cdi</artifactId>
+            <artifactId>fabric8-springboot</artifactId>
             <version>2.2.192</version>
         </dependency>
     </dependencies>

@@ -16,4 +16,9 @@ public class MasterController {
         return service.computePi(precision);
     }
 
+    @RequestMapping(path = "/")
+    public String root(){
+        return "Pi service";
+    }
+
 }

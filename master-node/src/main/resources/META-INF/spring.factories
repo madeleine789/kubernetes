@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.fabric8.spring.boot.KubernetesAutoconfiguration,\
+io.fabric8.spring.boot.internal.InternalServiceConfigurer,\
+io.fabric8.spring.boot.external.ExternalServiceConfigurer
